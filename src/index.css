@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "@radix-ui/themes/styles.css";
+
+* {
+  box-sizing: border-box;
+}
+
+/* Custom FullCalendar styles */
+.fc-day-has-events {
+  background-color: rgba(34, 197, 94, 0.1) !important; /* Light green background */
+}
+
+.fc-day-has-events:hover {
+  background-color: rgba(34, 197, 94, 0.15) !important; /* Slightly darker on hover */
+}
+
+/* Header styles for days of the week */
+.fc-col-header-cell {
+  border: none !important; /* Remove border from header */
+  background-color: transparent !important;
+  padding: 12px 8px !important;
+}
+
+.fc-col-header-cell-cushion {
+  color: #6b7280 !important; /* Gray color for header text */
+  font-weight: 500 !important;
+  text-decoration: none !important;
+  font-size: 14px !important;
+}
+
+/* Calendar tile consistency */
+.fc-daygrid-day {
+  border: 1px solid #e5e7eb !important; /* Light gray border */
+  background-color: #ffffff !important;
+  min-height: 100px !important; /* Consistent height */
+}
+
+.fc-daygrid-day:hover {
+  background-color: #f9fafb !important; /* Light hover effect */
+}
+
+.fc-daygrid-day-number {
+  color: #374151 !important; /* Dark gray for day numbers */
+  font-weight: 500 !important;
+  padding: 8px !important;
+}
+
+/* Today's date styling */
+.fc-day-today {
+  background-color: #f0f9ff !important; /* Light blue background for today */
+}
+
+.fc-day-today .fc-daygrid-day-number {
+  color: #1d4ed8 !important; /* Blue color for today's number */
+  font-weight: 600 !important;
+}
