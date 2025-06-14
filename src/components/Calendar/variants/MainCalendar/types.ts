@@ -7,6 +7,7 @@ interface MainCalendarProps {
   selectedDate?: Date | null;
   view: ECalendarView;
   handleChangeDate?: (date: Date) => void;
+  handleClickViewEvent?: (event: ICalendarEvent | null) => void;
   onChangeView?: (view: ECalendarView) => void;
 }
 

@@ -20,13 +20,14 @@ const viewOptions = [
   { label: "Day", value: "timeGridDay" },
 ];
 
-export default function MainCalendar({ events, selectedDate: selectedDateProp, view: viewProp, handleChangeDate, onChangeView }: MainCalendarProps) {
+export default function MainCalendar({ events, selectedDate: selectedDateProp, view: viewProp, handleChangeDate, handleClickViewEvent, onChangeView }: MainCalendarProps) {
   const calendarRef = useRef<any>(null);
 
   const currentDate = new Date();
   const [selectedDate, setSelectedDate] = useState<Date>(currentDate);
   const [view, setView] = useState<ECalendarView>(ECalendarView.DAY_GRID_MONTH);
 
+  // #region calendar methods
   const changeView = (viewName: ECalendarView) => {
     if (calendarRef.current) {
       const calendarApi = calendarRef.current.getApi();
@@ -52,20 +53,14 @@ export default function MainCalendar({ events, selectedDate: selectedDateProp, v
     return <div className={`rounded-md p-1 text-xs truncate w-full ${style}`}>{event.title}</div>;
   };
 
-  // Function to check if a date has events
   const hasEventsOnDate = (date: Date): boolean => {
     return getEventsForDate(date, events).length > 0;
   };
 
-  // Function to add CSS class to days with events and selected date
   const getDayCellClassNames = (arg: any): string => {
     const date = new Date(arg.date);
     let classNames = hasEventsOnDate(date) ? "fc-day-has-events" : "";
-    if (
-      date.getDate() === selectedDate.getDate() &&
-      date.getMonth() === selectedDate.getMonth() &&
-      date.getFullYear() === selectedDate.getFullYear()
-    ) {
+    if (date.getDate() === selectedDate.getDate() && date.getMonth() === selectedDate.getMonth() && date.getFullYear() === selectedDate.getFullYear()) {
       classNames += (classNames ? " " : "") + "selected";
     }
     return classNames;
@@ -95,6 +90,15 @@ export default function MainCalendar({ events, selectedDate: selectedDateProp, v
       if (handleChangeDate) handleChangeDate(currentDate);
     }
   };
+  // #endregion calendar methods
+
+  // #region dialog methods
+  const onClickEvent = (event: ICalendarEvent | null) => {
+    const eventData = events.find((item) => item.id === event?.id);
+    if (handleClickViewEvent && eventData) handleClickViewEvent(eventData);
+  };
+
+  // #endregion dialog methods
 
   useEffect(() => {
     if (selectedDateProp) {
@@ -163,6 +167,9 @@ export default function MainCalendar({ events, selectedDate: selectedDateProp, v
           eventContent={renderEventContent}
           dateClick={handleDateClick}
           dayCellClassNames={getDayCellClassNames}
+          eventClick={(eventInfo) => {
+            onClickEvent(eventInfo.event as unknown as ICalendarEvent);
+          }}
           height="auto"
           dayMaxEvents={3}
           eventTimeFormat={{

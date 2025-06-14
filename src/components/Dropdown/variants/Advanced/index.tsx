@@ -8,19 +8,7 @@ interface AdvancedSelectProps extends Omit<SelectProps, "options"> {
   showSeparators?: boolean;
 }
 
-export default function AdvancedSelect({
-  groups,
-  options,
-  placeholder = "Select an option...",
-  value,
-  defaultValue,
-  onValueChange,
-  disabled = false,
-  name,
-  required = false,
-  className,
-  showSeparators = false,
-}: AdvancedSelectProps) {
+export default function AdvancedSelect({ groups, options, placeholder = "Select an option...", value, defaultValue, onValueChange, disabled = false, name, required = false, className, showSeparators = false }: AdvancedSelectProps) {
   return (
     <SelectRoot
       value={value}

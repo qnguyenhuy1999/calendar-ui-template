@@ -6,7 +6,7 @@ import { cn } from "@utils";
 export default function Button({ children, className, ...restProps }: ButtonProps) {
   return (
     <ButtonRadix
-      className={cn("border-dark-blue background-dark-blue rounded-lg", className)}
+      className={cn("border-1 border-solid border-dark-blue bg-dark-blue rounded-lg py-2 text-white", className)}
       {...restProps}
     >
       {children}

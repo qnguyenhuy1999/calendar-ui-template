@@ -34,4 +34,10 @@ const getMinNameOfTheDay = (date: Date): string => {
   return dayjs(date).format("dd");
 };
 
-export { formatDateTime, formatTime24Hour, getDayOfMonth, getFullMonthName, getFullYearDigit, getGMTOffset, getMinNameOfTheDay };
+const getISOString = (date?: Date | string) => {
+  if (!date) return;
+
+  return formatDateTime(date).slice(0, 16);
+};
+
+export { formatDateTime, formatTime24Hour, getDayOfMonth, getFullMonthName, getFullYearDigit, getGMTOffset, getISOString, getMinNameOfTheDay };

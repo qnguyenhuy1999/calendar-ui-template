@@ -6,7 +6,7 @@ import { formatTime24Hour, getGMTOffset } from "@utils";
 
 export default function EventCard({ event, handleEventClick }: EventCardProps) {
   const onEventClick = (e: React.MouseEvent) => {
-    handleEventClick(event.id, e);
+    handleEventClick(event, e);
   };
 
   const isAppointment = event.extendedProps.type === EEventType.APPOINTMENT;

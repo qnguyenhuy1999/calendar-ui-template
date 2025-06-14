@@ -15,7 +15,7 @@
     "resolveJsonModule": true,
     "isolatedModules": false,
     "jsx": "react-jsx",
-    "types": ["react", "react-dom"],
+    "types": ["react", "react-dom", "@types/node", "@types/eslint"],
     "baseUrl": "./",
     "paths": {
       "@*": ["src/*"],

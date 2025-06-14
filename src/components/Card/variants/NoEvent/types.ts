@@ -1,1 +1,1 @@
-export interface NoEventCardProps {}
+export type NoEventCardProps = object;

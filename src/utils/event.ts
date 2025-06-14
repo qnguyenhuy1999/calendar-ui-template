@@ -1,7 +1,7 @@
 import { getMinNameOfTheDay } from "./date";
 import dayjs from "dayjs";
 
-import { EFrequency } from "@enums";
+import { EDayOfWeek, EFrequency } from "@enums";
 import { ICalendarEvent } from "@types";
 
 const getEventsForDate = (date: Date | null, events: ICalendarEvent[]): any[] => {
@@ -25,11 +25,12 @@ const getEventsForDate = (date: Date | null, events: ICalendarEvent[]): any[] =>
 
     switch (recurrenceType) {
       case EFrequency.DAILY:
-        return byweekday.includes(getMinNameOfTheDay(date).toUpperCase()) && isWithinEndDate(event?.end);
+        return byweekday.includes(getMinNameOfTheDay(date).toUpperCase() as EDayOfWeek) && isWithinEndDate(event?.end);
 
-      case EFrequency.WEEKLY:
+      case EFrequency.WEEKLY: {
         const diffDays = Math.floor((date.getTime() - eventStart.getTime()) / (1000 * 3600 * 24));
         return date.getDate() === eventStart.getDate() && diffDays % 7 === 0 && isWithinEndDate(event?.end);
+      }
 
       case EFrequency.MONTHLY:
         return date.getDate() === eventStart.getDate() && isWithinEndDate(event?.end);

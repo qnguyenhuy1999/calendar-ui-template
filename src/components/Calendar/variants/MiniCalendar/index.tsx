@@ -102,7 +102,7 @@ export default function MiniCalendar({ events, selectedDate: selectedDateProp, h
   const selectDate = (day: any) => {
     const selectedDate = new Date(day.year, day.month, day.date);
     setSelectedDate(selectedDate);
-    handleChangeDate && handleChangeDate(selectedDate);
+    if (handleChangeDate) handleChangeDate(selectedDate);
 
     // If selected date is not in current month, update current month
     if (!day.isCurrentMonth) {

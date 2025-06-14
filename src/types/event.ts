@@ -1,16 +1,16 @@
 import { IClient } from "./client";
 
-import { EEventType, EFrequency } from "@enums";
+import { EDayOfWeek, EEventType, EFrequency } from "@enums";
 
 interface ICalendarEvent {
-  id: string;
+  id?: string;
   title: string;
   start: Date | string;
   end: Date | string;
   rrule?: {
     freq: EFrequency;
     interval: number;
-    byweekday: string[];
+    byweekday: EDayOfWeek[];
     until: Date | string;
     dtstart: Date | string;
   };
@@ -21,9 +21,9 @@ interface ICalendarEvent {
 }
 
 interface IEventResponse {
-  id: string | number;
+  id?: string | number;
   title: string;
-  description: string;
+  description?: string;
   startDate: Date | string;
   endDate: Date | string;
   type: EEventType;

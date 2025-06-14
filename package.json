@@ -28,14 +28,16 @@
     "react-icons": "^5.5.0",
     "react-scripts": "5.0.1",
     "typescript": "^4.9.5",
+    "uuid": "^11.1.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "webpack-dev-server --config webpack.local.config.ts --mode development --live-reload --hot --open",
+    "prebuild": "pnpm prettier && pnpm lint",
     "build": "webpack --config webpack.production.config.ts --mode production",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint . --ext .ts,.tsx --fix",
+    "lint": "eslint .",
     "prettier": "prettier --write \"src/**/*.{ts,tsx,css,scss,json,md}\""
   },
   "browserslist": {
@@ -51,9 +53,11 @@
     ]
   },
   "devDependencies": {
+    "@eslint/js": "^9.29.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.6.0",
     "@trivago/prettier-plugin-sort-imports": "^5.2.2",
     "@types/dotenv-webpack": "^7.0.8",
+    "@types/eslint": "^9.6.1",
     "@types/node": "^22.15.29",
     "@typescript-eslint/eslint-plugin": "^8.33.0",
     "@typescript-eslint/parser": "^8.33.0",
@@ -63,13 +67,12 @@
     "css-loader": "^7.1.2",
     "dotenv": "^16.5.0",
     "dotenv-webpack": "^8.1.0",
-    "eslint": "^8.57.1",
-    "eslint-config-prettier": "^10.1.5",
-    "eslint-config-react-app": "^7.0.1",
+    "eslint": "^9.29.0",
     "eslint-plugin-prettier": "^5.4.1",
     "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^5.2.0",
+    "globals": "^16.2.0",
     "html-webpack-plugin": "^5.6.3",
+    "jiti": "^2.4.2",
     "mini-css-extract-plugin": "^2.9.2",
     "postcss": "^8.5.4",
     "postcss-loader": "^8.1.1",
@@ -79,6 +82,7 @@
     "tailwindcss": "^3.4.17",
     "ts-loader": "^9.5.2",
     "ts-node": "^10.9.2",
+    "typescript-eslint": "^8.34.0",
     "webpack": "^5.99.9",
     "webpack-cli": "^6.0.1",
     "webpack-dev-server": "^5.2.1"

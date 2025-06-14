@@ -1,1 +1,2 @@
-export { default as EventDialog } from "./variants/Events";
+export * from "./variants/Common";
+export { default as EventDetailDialog } from "./variants/EventDetail";

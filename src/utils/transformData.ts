@@ -1,9 +1,10 @@
 import { formatDateTime, formatTime24Hour } from "./date";
 import dayjs from "dayjs";
 
-import { EFrequency } from "@enums";
+import { EDayOfWeek, EFrequency } from "@enums";
 import { ICalendarEvent, IEventResponse } from "@types";
 
+// transform data we will do at service layer (called API) and don't need to create there
 const transformDataEvents = (events: IEventResponse[]): ICalendarEvent[] => {
   return events.map((event) => {
     const { startDate, endDate, recurrence, ...rest } = event;
@@ -25,7 +26,7 @@ const transformDataEvents = (events: IEventResponse[]): ICalendarEvent[] => {
         ? {
             freq: recurrence.frequency.toLowerCase() as EFrequency,
             interval: 1,
-            byweekday: recurrence.byDay,
+            byweekday: recurrence.byDay as EDayOfWeek[],
             until: formatDateTime(formattedEnd),
             dtstart: formatDateTime(formattedStart),
           }
