@@ -1,8 +1,8 @@
+import * as Select from "@radix-ui/react-select";
 import { Check, ChevronDown, ChevronUp } from "lucide-react";
 import React from "react";
-
-import * as Select from "@radix-ui/react-select";
 import { cn } from "@utils";
+
 
 const SelectRoot = Select.Root;
 

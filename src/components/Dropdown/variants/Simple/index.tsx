@@ -11,6 +11,7 @@ export default function SimpleSelect({
   name,
   required = false,
   className,
+  label,
 }: SelectProps) {
   return (
     <SelectRoot
@@ -21,9 +22,12 @@ export default function SimpleSelect({
       name={name}
       required={required}
     >
-      <SelectTrigger className={className}>
-        <SelectValue placeholder={placeholder} />
-      </SelectTrigger>
+      <div className="flex flex-col gap-2">
+        {label && <div className="text-field-label">{label}:</div>}
+        <SelectTrigger className={className}>
+          <SelectValue placeholder={placeholder} />
+        </SelectTrigger>
+      </div>
       <SelectContent>
         {options.map((option) => (
           <SelectItem

@@ -14,6 +14,7 @@ export interface SelectProps {
   name?: string;
   required?: boolean;
   className?: string;
+  label?: string;
 }
 
 export interface SelectGroupProps {

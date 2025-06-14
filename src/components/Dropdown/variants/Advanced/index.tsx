@@ -1,6 +1,6 @@
+import React from "react";
 import { SelectContent, SelectGroup, SelectItem, SelectLabel, SelectRoot, SelectSeparator, SelectTrigger, SelectValue } from "../Common";
 import { SelectGroupProps, SelectOption, SelectProps } from "../Common/types";
-import React from "react";
 
 interface AdvancedSelectProps extends Omit<SelectProps, "options"> {
   groups?: SelectGroupProps[];

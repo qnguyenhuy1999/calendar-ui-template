@@ -8,7 +8,7 @@ const APIEvents = [
     type: "event",
     recurrence: {
       frequency: "DAILY",
-      byDay: ["MO", "TU", "WE", "TH", "FR", "SA"],
+      byDay: ["MO", "SA", "SU"],
     },
     client: null,
   },

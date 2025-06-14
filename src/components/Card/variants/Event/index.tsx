@@ -1,12 +1,12 @@
-import { EventCardProps } from "./types";
-import { Video } from "lucide-react";
 
+import { Video } from "lucide-react";
 import { EEventType } from "@enums";
 import { formatTime24Hour, getGMTOffset } from "@utils";
+import { EventCardProps } from "./types";
 
 export default function EventCard({ event, handleEventClick }: EventCardProps) {
   const onEventClick = (e: React.MouseEvent) => {
-    handleEventClick(event.id, e);
+    handleEventClick(event, e);
   };
 
   const isAppointment = event.extendedProps.type === EEventType.APPOINTMENT;

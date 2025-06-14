@@ -4,17 +4,16 @@
 
 @import "@radix-ui/themes/styles.css";
 
-#root,
-#docs-root {
+* {
+  box-sizing: border-box;
+}
+
+body {
   --light-blue-color: #5684ae;
   --dark-blue-color: #0f4c81;
   --light-orange-color: #ffe4c8;
   --dark-orange-color: #f9be81;
   --calendar-tile-color: #e4f6ed;
-}
-
-* {
-  box-sizing: border-box;
 }
 
 /* Header styles for days of the week */
