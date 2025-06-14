@@ -1,2 +1,3 @@
 export * from "./date";
-export * from "./merge-class";
+export * from "./mergeClass";
+export * from "./transformData";

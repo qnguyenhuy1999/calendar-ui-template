@@ -1,7 +1,7 @@
-import { IEvent } from "@types";
+import { ICalendarEvent } from "@types";
 
 interface EventCardProps {
-  event: IEvent;
+  event: ICalendarEvent;
   handleEventClick: (eventId: string, e: React.MouseEvent) => void;
 }
 

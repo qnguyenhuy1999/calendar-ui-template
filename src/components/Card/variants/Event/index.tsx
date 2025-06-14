@@ -9,14 +9,21 @@ export default function EventCard({ event, handleEventClick }: EventCardProps) {
     handleEventClick(event.id, e);
   };
 
+  const isAppointment = event.extendedProps.type === EEventType.APPOINTMENT;
+
+  const classes = {
+    card: !isAppointment ? "border-dark-orange bg-dark-blue" : "border-dark-blue bg-dark-orange text-white",
+    text: !isAppointment ? "text-white opacity-80" : "text-gray-700",
+  };
+
   return (
     <div
       key={event.id}
-      className={`rounded-lg p-4 cursor-pointer ${event.extendedProps.type === EEventType.APPOINTMENT ? "bg-[#FFE4C8] border-l-4 border-[#5684AE]" : "bg-[#F9BE81] border-l-4 border-[#F9BE81]"}`}
+      className={`rounded-lg p-4 cursor-pointer border-l-4 ${classes.card}`}
       onClick={onEventClick}
     >
-      <h3 className="mb-2 font-medium text-[#0F4C81]">{event.title}</h3>
-      <p className="mb-3 text-sm text-gray-600">
+      <h3 className={`mb-2 font-medium ${classes.text}`}>{event.title}</h3>
+      <p className={`mb-3 text-sm ${classes.text}`}>
         {formatTime24Hour(event.start)} — {formatTime24Hour(event.end)} {getGMTOffset(event.start)}
       </p>
       {event.extendedProps.type === EEventType.APPOINTMENT && (
@@ -29,7 +36,7 @@ export default function EventCard({ event, handleEventClick }: EventCardProps) {
             />
             <a
               href={event.extendedProps?.client?.webURL}
-              className="text-[#5684AE] text-sm"
+              className={`text-sm ${classes.text} hover:underline`}
             >
               View Client Profile
             </a>

@@ -3,4 +3,11 @@ enum EEventType {
   EVENT = "event",
 }
 
-export { EEventType };
+enum EFrequency {
+  DAILY = "daily",
+  WEEKLY = "weekly",
+  MONTHLY = "monthly",
+  YEARLY = "yearly",
+}
+
+export { EEventType, EFrequency };

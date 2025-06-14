@@ -1,1 +1,1 @@
-export * from "./mockEvents";
+export * from "./api";

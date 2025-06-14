@@ -3,11 +3,12 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { IconButton } from "@radix-ui/themes";
+import { getEventsForDate } from "@utils/event";
 
 export default function MiniCalendar({ events, selectedDate: selectedDateProp, handleChangeDate }: MiniCalendarProps) {
   const currentDate = new Date();
   const [selectedDate, setSelectedDate] = useState<Date>(currentDate);
-  const [miniCalendarMonth, setMiniCalendarMonth] = useState<Date>(new Date(2025, 5, 13));
+  const [miniCalendarMonth, setMiniCalendarMonth] = useState<Date>(currentDate);
 
   const miniMonth = miniCalendarMonth.toLocaleString("default", {
     month: "long",
@@ -15,7 +16,7 @@ export default function MiniCalendar({ events, selectedDate: selectedDateProp, h
   const miniYear = miniCalendarMonth.getFullYear();
 
   const goToPrevMonth = () => {
-    const newDate = new Date(selectedDate);
+    const newDate = new Date(miniCalendarMonth);
     newDate.setMonth(newDate.getMonth() - 1);
     setMiniCalendarMonth(newDate);
   };
@@ -118,17 +119,12 @@ export default function MiniCalendar({ events, selectedDate: selectedDateProp, h
     return day.date === selectedDate.getDate() && day.month === selectedDate.getMonth() && day.year === selectedDate.getFullYear();
   };
 
-  const getEventsForDay = (day: any) => {
-    const date = new Date(day.year, day.month, day.date);
-    return events.filter(
-      (event) =>
-        event.start.getDate() === date.getDate() && event.start.getMonth() === date.getMonth() && event.start.getFullYear() === date.getFullYear()
-    );
+  const getEventsForDay = (date: any) => {
+    return getEventsForDate(date, events);
   };
 
   useEffect(() => {
     if (selectedDateProp) {
-      console.log("Selected date prop changed:", selectedDateProp);
       setSelectedDate(selectedDateProp);
       setMiniCalendarMonth(selectedDateProp);
     }
@@ -144,7 +140,7 @@ export default function MiniCalendar({ events, selectedDate: selectedDateProp, h
         >
           <ChevronLeft />
         </IconButton>
-        <h2 className="text-lg font-bold text-[#0F4C81]">
+        <h2 className="text-lg font-bold text-[#0F4C81] w-[144px] text-center">
           {miniMonth} {miniYear}
         </h2>
         <IconButton
@@ -159,28 +155,25 @@ export default function MiniCalendar({ events, selectedDate: selectedDateProp, h
         {["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"].map((day, index) => (
           <div
             key={index}
-            className="py-1 text-xs font-medium text-center text-gray-500"
+            className="p-1 text-xs font-medium text-center text-gray-500"
           >
             {day}
           </div>
         ))}
         {getCalendarDays(miniCalendarMonth).map((day, index) => {
-          const dayEvents = getEventsForDay(day);
+          const isHasEvent = getEventsForDay(new Date(day.year, day.month, day.date)).length > 0;
           return (
             <div
               key={index}
               onClick={() => selectDate(day)}
-              className={`
-                        text-center py-1 text-sm cursor-pointer !rounded-button whitespace-nowrap relative
+              className={`flex items-center justify-center w-[32px] h-[32px] py-1 text-sm cursor-pointer !rounded-button whitespace-nowrap relative
                         ${!day.isCurrentMonth ? "text-gray-400" : "text-gray-800"}
                         ${isToday(day) ? "bg-blue-600 text-white rounded-full" : ""}
                         ${isSelected(day) && !isToday(day) ? "bg-blue-100 rounded-full" : ""}
                       `}
             >
               {day.date}
-              {dayEvents.length > 0 && (
-                <span className="absolute bottom-0 w-1 h-1 transform -translate-x-1/2 bg-blue-500 rounded-full left-1/2"></span>
-              )}
+              {isHasEvent && <span className="absolute w-1 h-1 transform -translate-x-1/2 rounded-full bottom-[1px] bg-dark-orange left-1/2"></span>}
             </div>
           );
         })}

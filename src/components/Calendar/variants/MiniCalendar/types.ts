@@ -1,8 +1,8 @@
-import { IEvent } from "@types";
+import { ICalendarEvent } from "@types";
 
 interface MiniCalendarProps {
-  events: IEvent[];
-  selectedDate?: Date;
+  events: ICalendarEvent[];
+  selectedDate?: Date | null;
   handleChangeDate?: (date: Date) => void;
 }
 

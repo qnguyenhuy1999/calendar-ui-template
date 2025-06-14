@@ -14,16 +14,24 @@ const getGMTOffset = (time: Date | string): string => {
   return `GMT${sign}${hours}:${minutes}`;
 };
 
-const getYear = (date: Date): string => {
+const formatDateTime = (date: Date | string): string => {
+  return dayjs(date).format("YYYY-MM-DDTHH:mm:ss");
+};
+
+const getFullYearDigit = (date: Date): string => {
   return dayjs(date).format("YYYY");
 };
 
-const getMonthName = (date: Date): string => {
+const getFullMonthName = (date: Date): string => {
   return dayjs(date).format("MMMM");
 };
 
-const getDay = (date: Date): string => {
+const getDayOfMonth = (date: Date): string => {
   return dayjs(date).format("DD");
 };
 
-export { formatTime24Hour, getDay, getGMTOffset, getMonthName, getYear };
+const getMinNameOfTheDay = (date: Date): string => {
+  return dayjs(date).format("dd");
+};
+
+export { formatDateTime, formatTime24Hour, getDayOfMonth, getFullMonthName, getFullYearDigit, getGMTOffset, getMinNameOfTheDay };

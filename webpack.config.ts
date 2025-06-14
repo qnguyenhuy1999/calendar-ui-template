@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import CopyWebpackPlugin from "copy-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import * as path from "path";
@@ -35,10 +36,6 @@ export default {
         exclude: /node_modules/,
       },
       {
-        test: /\.css$/,
-        use: ["style-loader", "css-loader", "postcss-loader"],
-      },
-      {
         test: /\.(png|svg)$/,
         type: "asset/resource",
       },
@@ -58,4 +55,10 @@ export default {
       ],
     }),
   ],
+  optimization: {
+    splitChunks: {
+      chunks: "all",
+    },
+    runtimeChunk: "single",
+  },
 };

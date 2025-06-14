@@ -2,13 +2,17 @@ import { MainCalendarProps } from "./types";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
-import { Button, SimpleSelect } from "@components";
+import { Button, ECalendarView, SimpleSelect } from "@components";
+import { EEventType } from "@enums";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import FullCalendar from "@fullcalendar/react";
+import rrulePlugin from "@fullcalendar/rrule";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import { IconButton } from "@radix-ui/themes";
-import { getMonthName, getYear } from "@utils";
+import { ICalendarEvent } from "@types";
+import { getFullMonthName, getFullYearDigit } from "@utils";
+import { getEventsForDate } from "@utils/event";
 
 const viewOptions = [
   { label: "Month", value: "dayGridMonth" },
@@ -16,18 +20,19 @@ const viewOptions = [
   { label: "Day", value: "timeGridDay" },
 ];
 
-export default function MainCalendar({ events, selectedDate: selectedDateProp, handleChangeDate }: MainCalendarProps) {
+export default function MainCalendar({ events, selectedDate: selectedDateProp, view: viewProp, handleChangeDate, onChangeView }: MainCalendarProps) {
   const calendarRef = useRef<any>(null);
 
-  const currentDate = new Date(2025, 5, 13);
+  const currentDate = new Date();
   const [selectedDate, setSelectedDate] = useState<Date>(currentDate);
-  const [view, setView] = useState<string>("dayGridMonth");
+  const [view, setView] = useState<ECalendarView>(ECalendarView.DAY_GRID_MONTH);
 
-  const changeView = (viewName: string) => {
+  const changeView = (viewName: ECalendarView) => {
     if (calendarRef.current) {
       const calendarApi = calendarRef.current.getApi();
       calendarApi.changeView(viewName);
       setView(viewName);
+      if (onChangeView) onChangeView(viewName);
     }
   };
 
@@ -40,28 +45,30 @@ export default function MainCalendar({ events, selectedDate: selectedDateProp, h
 
   const renderEventContent = (eventInfo: any) => {
     const { event } = eventInfo;
-    const { extendedProps } = event;
+    const { extendedProps } = event as ICalendarEvent;
 
-    return (
-      <div className="p-1 text-xs truncate">
-        {extendedProps.hasVideoCall && <i className="mr-1 text-xs fas fa-video"></i>}
-        {event.title}
-      </div>
-    );
+    const style = extendedProps.type === EEventType.EVENT ? "fc-day-type-event" : "fc-day-type-appointment";
+
+    return <div className={`rounded-md p-1 text-xs truncate w-full ${style}`}>{event.title}</div>;
   };
 
   // Function to check if a date has events
   const hasEventsOnDate = (date: Date): boolean => {
-    return events.some((event) => {
-      const eventDate = new Date(event.start);
-      return eventDate.getDate() === date.getDate() && eventDate.getMonth() === date.getMonth() && eventDate.getFullYear() === date.getFullYear();
-    });
+    return getEventsForDate(date, events).length > 0;
   };
 
-  // Function to add CSS class to days with events
+  // Function to add CSS class to days with events and selected date
   const getDayCellClassNames = (arg: any): string => {
     const date = new Date(arg.date);
-    return hasEventsOnDate(date) ? "fc-day-has-events" : "";
+    let classNames = hasEventsOnDate(date) ? "fc-day-has-events" : "";
+    if (
+      date.getDate() === selectedDate.getDate() &&
+      date.getMonth() === selectedDate.getMonth() &&
+      date.getFullYear() === selectedDate.getFullYear()
+    ) {
+      classNames += (classNames ? " " : "") + "selected";
+    }
+    return classNames;
   };
 
   const goToPrevMonth = () => {
@@ -99,8 +106,14 @@ export default function MainCalendar({ events, selectedDate: selectedDateProp, h
     }
   }, [selectedDateProp]);
 
+  useEffect(() => {
+    if (viewProp) {
+      changeView(viewProp);
+    }
+  }, [viewProp]);
+
   return (
-    <div className="w-full p-6 md:w-2/3">
+    <div className="w-full p-6">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center space-x-4">
           <Button
@@ -126,7 +139,7 @@ export default function MainCalendar({ events, selectedDate: selectedDateProp, h
           </IconButton>
 
           <h2 className="text-2xl font-bold text-[#0F4C81]">
-            {getMonthName(selectedDate)} {getYear(selectedDate)}
+            {getFullMonthName(selectedDate)} {getFullYearDigit(selectedDate)}
           </h2>
         </div>
 
@@ -134,7 +147,7 @@ export default function MainCalendar({ events, selectedDate: selectedDateProp, h
           options={viewOptions}
           placeholder="Choose a view..."
           value={view}
-          onValueChange={(value) => changeView(value)}
+          onValueChange={(value) => changeView(value as ECalendarView)}
         />
       </div>
 
@@ -142,7 +155,7 @@ export default function MainCalendar({ events, selectedDate: selectedDateProp, h
       <div className="main-calendar-wrapper">
         <FullCalendar
           ref={calendarRef}
-          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, rrulePlugin]}
           initialView="dayGridMonth"
           initialDate={currentDate}
           headerToolbar={false}
